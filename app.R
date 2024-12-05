@@ -1,8 +1,22 @@
+
+# Student No. 2005070
+# Dissertation App Code
+
+# Contents:
+# User interface    line 21
+# Server            line 109
+# Run               line 367
+
+################################################################################
+
+# Loading useful libraries
 library(shiny)
 library(bslib)
 library(tidyverse)
 library(ggplot2)
 library(ggpubr)
+
+################################################################################
 
 # User interface
 ui <- fluidPage(
@@ -19,7 +33,7 @@ ui <- fluidPage(
       "This simulation creates a three-variable system consisting of an exposure 
       (X), outcome (Y), and mediator. Linear regression analyses are conducted
       using the models 'X ~ Y' and 'X ~ Y + Mediator'. The graphs illustrate
-      these mediator-biased and mediator-adjusted results.", br(),
+      these mediator-biased and mediator-adjusted results.", br(), br(),
       sidebarLayout(
       sidebarPanel(
       h4("Input data"),
@@ -36,7 +50,7 @@ ui <- fluidPage(
       "This simulation creates a three-variable system consisting of an exposure 
       (X), outcome (Y), and confounder. Linear regression analyses are conducted
       using the models 'X ~ Y' and 'X ~ Y + Confounder'. The graphs illustrate
-      these confounder-biased and confounder-adjusted results.", br(),
+      these confounder-biased and confounder-adjusted results.", br(), br(),
       sidebarLayout(
         sidebarPanel(
           h4("Input data"),
@@ -53,7 +67,7 @@ ui <- fluidPage(
       "This simulation creates a three-variable system consisting of an exposure 
       (X), outcome (Y), and collider. Linear regression analyses are conducted
       using the models 'X ~ Y + Collider' and 'X ~ Y'. The graphs illustrate
-      these collider-biased and collider-adjusted results.", br(),
+      these collider-biased and collider-adjusted results.", br(), br(),
       sidebarLayout(
         sidebarPanel(
           h4("Input data"),
@@ -71,7 +85,7 @@ ui <- fluidPage(
       (X), outcome (Y), a mediator, a confounder and a collider. Linear regression
       analyses are conducted using models which adjust for all combinations of 
       covariates. These results are displayed in a graph below, illustrating the
-      estimated effect of X on Y when adjusting for different covariates.",
+      estimated effect of X on Y when adjusting for different covariates.", br(), br(),
       sidebarLayout(
         sidebarPanel(
           h4("Input data"),
@@ -90,6 +104,7 @@ ui <- fluidPage(
     )
   )
 
+################################################################################
 
 # Server
 server <- function(input, output) {
@@ -347,4 +362,7 @@ server <- function(input, output) {
   
 }
 
+################################################################################
+
+# Run app
 shinyApp(ui = ui, server = server)

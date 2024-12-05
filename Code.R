@@ -1,13 +1,26 @@
+
+# Student No. 2005070
+# Dissertation Research Paper Code
+
+# Contents:
+# Scenario 1    line 21
+# Scenario 2    line 407
+# Scenario 3    line 605
+# Scenario 4    line 808
+# Scenario 5    line 975
+
+################################################################################
+
 # Loading useful libraries
 library(tidyverse)
-library(dplyr)
 library(ggplot2)
 library(ggpubr)
 
 set.seed(27)
 
 ################################################################################
-# Mediator example (linear regression)
+# Scenario 1
+# Illustrating a mediator (linear regression)
 
 # Creating the mediator simulation function
 
@@ -71,7 +84,8 @@ plot2 <- ggplot(Med_df, aes(x=betaXMed, y=coefXMedY)) +
 
 
 ################################################################################
-# Mediator example (logistic regression)
+# Scenario 1
+# Illustrating a mediator (logistic regression)
 
 sim_Med_log <- function(bMX){
   n <- 10000                # the number of observations in the study
@@ -134,7 +148,8 @@ ggarrange(plot1, plot2, plot3, plot4, labels = c("A", "B", "C", "D"),
 
 
 ################################################################################
-# Confounder example (linear regression)
+# Scenario 1
+# Illustrating a confounder (linear regression)
 
 # Creating the confounder simulation function
 sim_Con <- function(betaConX, betaConY, betaXY){
@@ -198,7 +213,8 @@ plot6 <- ggplot(Con_df, aes(x=betaConX, y=coefXYCon)) +
 
 
 ################################################################################
-# Confounder example (logistic regression)
+# Scenario 1
+# Illustrating a confounder (logistic regression)
 
 sim_Con_log <- function(bCX){
   n <- 10000      # the number of observations in the study
@@ -262,7 +278,8 @@ ggarrange(plot5, plot6, plot7, plot8, labels = c("A", "B", "C", "D"),
 
 
 ################################################################################
-# Collider example (linear regression)
+# Scenario 1
+# Illustrating a collider (linear regression)
 
 # Creating the collider simulation function
 sim_Col <- function(betaXCol, betaYCol, betaXY){
@@ -325,9 +342,8 @@ plot10 <- ggplot(Col_df, aes(x=betaXCol, y=coefXY)) +
 
 
 ################################################################################
-# Collider example (logistic regression)
-
-# Collider logistic regression
+# Scenario 1
+# Illustrating a collider (logistic regression)
 
 sim_Col_log <- function(bC2X){
   n <- 10000                 # the number of observations in the study
@@ -389,6 +405,7 @@ ggarrange(plot9, plot10, plot11, plot12, labels = c("A", "B", "C", "D"),
 
 
 ################################################################################
+# Scenario 2
 # Mediator ~ Y variation
 
 # Set the parameters we will be using
@@ -454,6 +471,7 @@ ggarrange(plot13, plot14,
 
 
 ################################################################################
+# Scenario 2
 # Confounder ~ Y variation
 
 # Set the parameters we will be using
@@ -518,6 +536,7 @@ ggarrange(plot15, plot16,
 
 
 ################################################################################
+# Scenario 2
 # Y ~ Collider variation
 
 # Set the parameters we will be using
@@ -584,6 +603,7 @@ ggarrange(plot17, plot18,
 
 
 ################################################################################
+# Scenario 3
 # X ~ Y variation (mediator)
 
 # Set the parameters we will be using
@@ -650,6 +670,7 @@ ggarrange(plot19, plot20,
 
 
 ################################################################################
+# Scenario 3
 # X ~ Y variation (confounder)
 
 # Set the parameters we will be using
@@ -717,6 +738,7 @@ ggarrange(plot21, plot22,
 
 
 ################################################################################
+# Scenario 3
 # X ~ Y variation (collider)
 
 # Set the parameters we will be using
@@ -784,15 +806,12 @@ ggarrange(plot23, plot24,
 
 
 ################################################################################
+# Scenario 4
 # Simple example of all third variables (linear)
 
 # Define parameters
 n <- 1000
-errorMed <- 1 
-errorCol <- 1 
-errorCon <- 1 
-errorX   <- 1
-errorY   <- 1
+error <- 1 
 betaXY   <-  0.2 # effect of smoking history on covid severity
 betaXCol <-  0.4 # effect of smoking history on hospitalisation
 betaYCol <-  0.5 # effect of covid severity on hospitalisation
@@ -802,11 +821,11 @@ betaXMed <-  0.7 # effect of smoking history on smoking-related comorbidities
 betaMedY <-  0.5 # effect of smoking-related comorbidities on covid severity
 
 # Create variables
-Con <- errorCon*rnorm(n)                                          # generate Confounder
-X   <- betaConX*Con                           + errorX*rnorm(n)   # generate X from Confounder
-Med <- betaXMed*X                             + errorMed*rnorm(n) # generate Mediator from X
-Y   <- betaXY*X + betaConY*Con + betaMedY*Med + errorY*rnorm(n)   # generate Y from Confounder, Mediator and X
-Col <- betaXCol*X + betaYCol*Y                + errorCol*rnorm(n) # generate Collider from X and Y
+Con <- error*rnorm(n)                                          # generate Confounder
+X   <- betaConX*Con                           + error*rnorm(n)   # generate X from Confounder
+Med <- betaXMed*X                             + error*rnorm(n) # generate Mediator from X
+Y   <- betaXY*X + betaConY*Con + betaMedY*Med + error*rnorm(n)   # generate Y from Confounder, Mediator and X
+Col <- betaXCol*X + betaYCol*Y                + error*rnorm(n) # generate Collider from X and Y
 
 # Run regressions
 lm1 <- lm(Y~X)                     
@@ -867,9 +886,10 @@ plot25 <- ggplot(dat, aes(x=coef, y=model)) +
   
 
 ################################################################################
+# Scenario 4
 # Simple example of all third variables (logistic)
 
-# Define parameters
+# Define parameters (multiplied effects from linear example by 3 to get better effect sizes)
 n <- 10000
 betaXY   <-  0.6 # effect of smoking history on covid severity
 betaXCol <-  1.2 # effect of smoking history on hospitalisation
@@ -881,17 +901,13 @@ betaMedY <-  1.5 # effect of smoking-related comorbidities on covid severity
 
 # Create variables
 Con <- rbinom(n, 1, 0.5)    # generate Confounder
-z.X <- 1 + betaConX*Con
-p.X <- 1/(1+exp(-z.X))
+p.X <- 1/(1+exp(-betaConX*Con))
 X   <- rbinom(n, 1, p.X)    # generate X from Confounder
-z.Med <- 1 + betaXMed*X 
-p.Med <- 1/(1+exp(-z.Med))
+p.Med <- 1/(1+exp(-betaXMed*X))
 Med <- rbinom(n, 1, p.Med)  # generate Mediator from X
-z.Y <- 1 + betaXY*X + betaConY*Con + betaMedY*Med
-p.Y <- 1/(1+exp(-z.Y))
+p.Y <- 1/(1+exp(-betaXY*X -betaConY*Con -betaMedY*Med))
 Y   <- rbinom(n, 1, p.Y)    # generate Y from Confounder, Mediator and X
-z.Col <- 1 + betaXCol*X + betaYCol*Y
-p.Col <- 1/(1+exp(z.Col))
+p.Col <- 1/(1+exp(-betaXCol*X -betaYCol*Y))
 Col <- rbinom(n, 1, p.Col)  # generate Collider from X and Y
 
 # Run regressions
@@ -952,11 +968,12 @@ plot26 <- ggplot(dat, aes(x=coef, y=model)) +
   xlab("X ~ Y Odds Ratio") + ylab("Covariates included")
 
 # View the graphs
-ggarrange(plot25, plot26,
+ggarrange(plot25, plot26, labels = c("A", "B"),
           ncol = 1, nrow = 2)
 
 
 ################################################################################
+# Scenario 5
 # Complex example of all third variables (linear)
 
 # Setting parameters and creating variables
@@ -1032,28 +1049,28 @@ plot27 <- ggplot(dat, aes(x=coef, y=model)) +
   xlab("X ~ Y Coefficients") + ylab("Covariates included")
 
 ################################################################################
+# Scenario 5
 # Complex example of all third variables (logistic)
 
-# Define parameters and variables 
-# (same as linear but multiplied by 3, otherwise effects too small)
+# Define parameters (effects same as linear but multiplied by 3 for better effect sizes)
 
 n <- 10000
 age        <- rbinom(n, 1, 0.5) # generate Con from standard normal distribution
 ethnicity  <- rbinom(n, 1, 0.5) # generate Con from standard normal distribution
-p.hcw      <- 1 / (1 + exp(-1 -0.6*ethnicity))
+p.hcw      <- 1 / (1 + exp(-0.6*ethnicity))
 hcw        <- rbinom(n, 1, p.hcw)     # generate Con from ethnicity
-p.smoking  <- 1 / (1 + exp(-1 -(-1.2*hcw) -(-0.6*ethnicity)))
+p.smoking  <- 1 / (1 + exp(-(-1.2*hcw) -(-0.6*ethnicity)))
 smoking    <- rbinom(n, 1, p.smoking)    # generate  X  from hcw + ethnicity
-p.comorbid <- 1 / (1 + exp(-1 -0.9*smoking))
+p.comorbid <- 1 / (1 + exp(-0.9*smoking))
 comorbid   <- rbinom(n, 1, p.comorbid)      # generate Med from smoking
 # generate  Y  from smoking + age + comorbid + hcw + ethnicity
-p.covidsev <- 1 / (1 + exp(-1 -0.6*smoking -0.6*age -1.2*comorbid -0.9*hcw -0.6*ethnicity))
+p.covidsev <- 1 / (1 + exp(-0.6*smoking -0.6*age -1.2*comorbid -0.9*hcw -0.6*ethnicity))
 covidsev   <- rbinom(n, 1, p.covidsev)
 # generate Col from smoking + hcw + age + comorbid + covidsev + ethnicity
-p.hospital <- 1 / (1 + exp(-1 -0.6*smoking -0.3*hcw -1.2*age -0.9*comorbid -1.5*covidsev -0.3*ethnicity))
+p.hospital <- 1 / (1 + exp(-0.6*smoking -0.3*hcw -1.2*age -0.9*comorbid -1.5*covidsev -0.3*ethnicity))
 hospital   <- rbinom(n, 1, p.hospital)
 # generate Col from smoking + hcw + age + comorbid + covidsev + hospital
-p.testing  <- 1 / (1 + exp(-1 -0.3*smoking -0.9*hcw -0.6*age -0.6*comorbid -0.9*covidsev -1.5*hospital))
+p.testing  <- 1 / (1 + exp(-0.3*smoking -0.9*hcw -0.6*age -0.6*comorbid -0.9*covidsev -1.5*hospital))
 testing    <- rbinom(n, 1, p.testing)
 
 dat <- data.frame(age, ethnicity, hcw, smoking, comorbid, covidsev, hospital, testing)
@@ -1115,5 +1132,5 @@ plot28 <- ggplot(dat2, aes(x=coef, y=model)) +
   xlab("X ~ Y Odds Ratio") + ylab("Covariates included")
 
 # View the graphs
-ggarrange(plot27, plot28,
+ggarrange(plot27, plot28, labels = c("A", "B"),
           ncol = 1, nrow = 2)
