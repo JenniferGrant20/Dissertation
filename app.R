@@ -29,23 +29,6 @@ ui <- fluidPage(
   navset_card_underline(
     
     nav_panel(
-      h4("Mediator"), br(),
-      "This simulation creates a three-variable system consisting of an exposure 
-      (X), outcome (Y), and mediator. Linear regression analyses are conducted
-      using the models 'X ~ Y' and 'X ~ Y + Mediator'. The graphs illustrate
-      these mediator-biased and mediator-adjusted results.", br(), br(),
-      sidebarLayout(
-      sidebarPanel(
-      h4("Input data"),
-      sliderInput("betaMedY", "Effect of the mediator on Y", -1, 1, 0.5, step=0.05),
-      sliderInput("betaXY1", "Effect of X on Y", -1, 1, 0, step=0.05)
-      ),
-      mainPanel(
-        plotOutput("mediatorplot", width="900px", height="500px"),
-        ))
-      ),
-    
-    nav_panel(
       h4("Confounder"), br(),
       "This simulation creates a three-variable system consisting of an exposure 
       (X), outcome (Y), and confounder. Linear regression analyses are conducted
@@ -59,6 +42,23 @@ ui <- fluidPage(
         ),
         mainPanel(
           plotOutput("confounderplot", width="900px", height="500px")
+        ))
+      ),
+    
+    nav_panel(
+      h4("Mediator"), br(),
+      "This simulation creates a three-variable system consisting of an exposure 
+      (X), outcome (Y), and mediator. Linear regression analyses are conducted
+      using the models 'X ~ Y' and 'X ~ Y + Mediator'. The graphs illustrate
+      these mediator-biased and mediator-adjusted results.", br(), br(),
+      sidebarLayout(
+        sidebarPanel(
+          h4("Input data"),
+          sliderInput("betaMedY", "Effect of the mediator on Y", -1, 1, 0.5, step=0.05),
+          sliderInput("betaXY1", "Effect of X on Y", -1, 1, 0, step=0.05)
+        ),
+        mainPanel(
+          plotOutput("mediatorplot", width="900px", height="500px"),
         ))
       ),
     
@@ -366,3 +366,7 @@ server <- function(input, output) {
 
 # Run app
 shinyApp(ui = ui, server = server)
+
+# Update app
+# library(rsconnect)
+# deployApp()
